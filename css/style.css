@@ -9,7 +9,7 @@
 .menu-div {
     font-family: 'Montserrat', sans-serif;
     font-weight: 100;
-    font-size: 10px;  
+    font-size: 11px;  
 }
 
 .legend-txt {
@@ -125,5 +125,5 @@ div.tooltip {
 
 .background-corona-bubbles {
     fill: red;
-    fill-opacity: 0.2;
+    fill-opacity: 0.15;
 }
