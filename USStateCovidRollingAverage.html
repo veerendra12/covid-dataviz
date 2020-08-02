@@ -31,20 +31,21 @@
             <g id="main-chart-xaxis" class="main-chart-xaxis"></g>
             <g id="main-chart-yaxis" class="main-chart-yaxis"></g>
 
+            <g id="main-chart-annotations" class="main-chart-annotations"></g>
+
             <g id="main-chart-controls-grp" class="main-chart-controls-grp">
                 <foreignObject x="0" y="-35" width="500" height="150">
                     <div class="menu-div">
                         <span style="color: white">Aggregation Level</span>
                         <select name="Aggrgration Type" id="aggrType-control-soc" class="aggrType-control-soc">
                             <option value="AllStates" selected>All States</option>
-                            <option value="ByRegions">By Regions</option>
                             <option value="TopFive">Top 5 vs Others</option>
                         </select>
                     </div>
                     <div class="menu-div">
                         <span style="color: white">Pause at Events</span>
-                        <select name="Aggrgration Type" id="aggrType-control-soc" class="aggrType-control-soc">
-                            <option value="Y">Yes</option>
+                        <select name="Pause at Events" id="pauseonevt-control-soc" class="pauseonevt-control-soc">
+                            <option value="Y" selected>Yes</option>
                             <option value="N">No</option>
                         </select>
                     </div>                    
@@ -87,8 +88,21 @@
         </g>
     </svg>
     <div class="tooltip">
-    </div>
-
+        <b>
+            <i>
+                <span id="tooltip-header">Positive Cases Summary:</span>
+            </i>
+        </b>
+        <br/><br/>
+        <b>State:</b>&nbsp;<span id="tooltip-state"></span>
+        <br/><br/>
+        <b>Highest Cases in 1 Day:</b>&nbsp;<span id="tooltip-peak-1d-count"></span>&nbsp;on&nbsp;<span id="tooltip-peak-1d-on"></span>
+        <br/>
+        <b>Peak 7Day Average:</b>&nbsp;<span id="tooltip-peak-count"></span>&nbsp;on&nbsp;<span id="tooltip-peak-on"></span>
+        <br/>
+        <br/>
+        <b>Total Cases:</b>&nbsp;<span id="tooltip-total"></span>
+        </div>
     <script src='js/usa_state_rolling_avg_area_chart.js'></script>
 </body>
 </html>
