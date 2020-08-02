@@ -1,28 +1,89 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Hank Quinlan, Horrible Cop</title>
-	</head>
-	<body>
-		<nav>
-    		<ul>
-        		<li><a href="/">Home</a></li>
-	        	<li><a href="/about">About</a></li>
-        		<li><a href="/cv">CV</a></li>
-        		<li><a href="/blog">Blog</a></li>
-    		</ul>
-		</nav>
-		<div class="container">
-    		<div class="blurb">
-        		<h1>Hi there, I'm Hank Quinlan!</h1>
-				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
-    		</div><!-- /.blurb -->
-		</div><!-- /.container -->
-		<footer>
-    		<ul>
-        		<li><a href="mailto:hankquinlanhub@gmail.com">email</a></li>
-        		<li><a href="https://github.com/hankquinlan">github.com/hankquinlan</a></li>
-			</ul>
-		</footer>
-	</body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Aldrich|Arima+Madurai|Arvo|Henny+Penny|Indie+Flower|Libre+Baskerville|Pirata+One|Poiret+One|Sancreek|Satisfy|Share+Tech+Mono|Smokum|Snowburst+One|Special+Elite" rel="stylesheet"> 
+<script src='lib/d3.v5.min.js'></script>
+<script src="lib/topojson.v3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<body style="background-color:black">
+    <svg id="svg-main" style="float: left;">
+        
+        <g id="chart-title-grp" class="chart-title-grp">
+            <g transform="translate(10, 40)">
+                <rect y="8" width="70%" height="2" fill="white"></rect>
+                <text class="chart-title" fill="white">USA Covid Journey - Introduction</text>
+            </g>
+        </g>
+
+        <g id="navigation-grp" class="navigation-grp" stroke="red" opacity="1">
+            <g fill="black" class="navig-next-ctrl-grp">
+                <circle cx="65" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(45,20) scale(2)" class="navig-next-ctrl">
+                    <path d="M12.522,10.4l-3.559,3.562c-0.172,0.173-0.451,0.176-0.625,0c-0.173-0.173-0.173-0.451,0-0.624l3.248-3.25L8.161,6.662c-0.173-0.173-0.173-0.452,0-0.624c0.172-0.175,0.451-0.175,0.624,0l3.738,3.736C12.695,9.947,12.695,10.228,12.522,10.4 M18.406,10c0,4.644-3.764,8.406-8.406,8.406c-4.644,0-8.406-3.763-8.406-8.406S5.356,1.594,10,1.594C14.643,1.594,18.406,5.356,18.406,10M17.521,10c0-4.148-3.374-7.521-7.521-7.521c-4.148,0-7.521,3.374-7.521,7.521c0,4.147,3.374,7.521,7.521,7.521C14.147,17.521,17.521,14.147,17.521,10"></path>
+                </g>
+            </g>
+            <g fill="black" class="navig-home-ctrl-grp">
+                <circle cx="110" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(90,20) scale(2)" class="navig-home-ctrl">
+                    <path  d="M18.121,9.88l-7.832-7.836c-0.155-0.158-0.428-0.155-0.584,0L1.842,9.913c-0.262,0.263-0.073,0.705,0.292,0.705h2.069v7.042c0,0.227,0.187,0.414,0.414,0.414h3.725c0.228,0,0.414-0.188,0.414-0.414v-3.313h2.483v3.313c0,0.227,0.187,0.414,0.413,0.414h3.726c0.229,0,0.414-0.188,0.414-0.414v-7.042h2.068h0.004C18.331,10.617,18.389,10.146,18.121,9.88 M14.963,17.245h-2.896v-3.313c0-0.229-0.186-0.415-0.414-0.415H8.342c-0.228,0-0.414,0.187-0.414,0.415v3.313H5.032v-6.628h9.931V17.245z M3.133,9.79l6.864-6.868l6.867,6.868H3.133z"></path>
+                </g>     
+            </g>            
+        </g>
+        
+        <g id="main-chart-grp" class="main-chart-grp"">
+            <foreignObject x="0" y="0" width="90%" height="100%">
+                <div class="notes-div">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    COVID-19 a.k.a Coronovirus disease needs no introduction for anyone living (of course children are to be exempted :)) on the mother earth during the year 2019-2020. 
+                    Everyone of us from every nook and corner of the world has been fighting with it.
+                    COVID-19 is an infectious disease caused by a newly discovered coronavirus.
+                    Most people infected with the COVID-19 virus will experience mild to moderate respiratory illness and recover without requiring special treatment.  Older people, and those with underlying medical problems like cardiovascular disease, diabetes, chronic respiratory disease, and cancer are more likely to develop serious illness.
+                    For more details about the virus, you may refer to <a href="https://en.wikipedia.org/wiki/Coronavirus_disease_2019">this wiki</a>.
+                </div>
+                <br/>
+                <br/>
+                <div class="notes-div">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    Although this novel virus is claimed to be originated in early December 2019, it made its entry into the USA during late January 2021 and still fighting the battle with it.
+                </div>
+                <br/>
+                <br/>
+                <div class="notes-div">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    This article takes you through the U.S.A's ongoing painful COVID-19 journey. The data used for this exercise covers from Janurary 22nd 2020 (the inception of the virus in the U.S.A)
+                    till July 22nd 2020. The data used here is collected from sources like <a href="https://usafacts.org/">USA Data</a>.
+                </div>
+                <br/>                
+                <div class="notes-div">
+                    Few of the main things that this article unleashes are:
+                    <ul>
+                        <li>
+                            Timeline and growth of COVID-19 positive cases reported across all the states of USA over time
+                        </li>
+                        <li>Timeline and growth of COVID-19 cuased deaths across all the states of USA over time</li>
+                        <li>Seven day rolling average of positive cases across all the states of USA over time</li>
+                        <li>Seven day rolling average of death cases across all the states of USA over time</li>
+                    </ul>
+                </div>
+                <div class="notes-div">
+                    Towards the end of the article, you should be able to conclude:
+                    <ul>
+                        <li>Which states were worst effected in the initial months of COVID-19 journey so far</li>
+                        <li>Which states were effected late in the journey but still worst hit</li>
+                        <li>Which states won over the battle and able to sustain the COVID-19 impact</li>
+                        <li>Etc..</li>
+                    </ul>
+                </div>
+                <br/>                
+                <div class="notes-div">
+                    When ready, please proceed with the tour... 
+                    <br/>
+                    (Use the navigation controls on the top right corner)
+                </div>                
+            </foreignObject>
+        </g>
+    </svg>
+
+    <script src='js/index.js'></script>
+</body>
 </html>

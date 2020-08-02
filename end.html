@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Aldrich|Arima+Madurai|Arvo|Henny+Penny|Indie+Flower|Libre+Baskerville|Pirata+One|Poiret+One|Sancreek|Satisfy|Share+Tech+Mono|Smokum|Snowburst+One|Special+Elite" rel="stylesheet"> 
+<script src='lib/d3.v5.min.js'></script>
+<script src="lib/topojson.v3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<body style="background-color:black">
+    <svg id="svg-main" style="float: left;">
+        
+        <g id="chart-title-grp" class="chart-title-grp">
+            <g transform="translate(10, 40)">
+                <rect y="8" width="70%" height="2" fill="white"></rect>
+                <text class="chart-title" fill="white">USA Covid Journey - Conclusion</text>
+            </g>
+        </g>
+
+        <g id="navigation-grp" class="navigation-grp" stroke="red" opacity="1">
+            <g fill="black" class="navig-prev-ctrl-grp">                
+                <circle cx="65" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(45,20) scale(2)" class="navig-prev-ctrl">
+                    <path d="M11.739,13.962c-0.087,0.086-0.199,0.131-0.312,0.131c-0.112,0-0.226-0.045-0.312-0.131l-3.738-3.736c-0.173-0.173-0.173-0.454,0-0.626l3.559-3.562c0.173-0.175,0.454-0.173,0.626,0c0.173,0.172,0.173,0.451,0,0.624l-3.248,3.25l3.425,3.426C11.911,13.511,11.911,13.789,11.739,13.962 M18.406,10c0,4.644-3.763,8.406-8.406,8.406S1.594,14.644,1.594,10S5.356,1.594,10,1.594S18.406,5.356,18.406,10 M17.521,10c0-4.148-3.373-7.521-7.521-7.521c-4.148,0-7.521,3.374-7.521,7.521c0,4.148,3.374,7.521,7.521,7.521C14.147,17.521,17.521,14.148,17.521,10"></path>
+                </g> 
+            </g>
+            <g fill="black" class="navig-home-ctrl-grp">
+                <circle cx="110" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(90,20) scale(2)" class="navig-home-ctrl">
+                    <path  d="M18.121,9.88l-7.832-7.836c-0.155-0.158-0.428-0.155-0.584,0L1.842,9.913c-0.262,0.263-0.073,0.705,0.292,0.705h2.069v7.042c0,0.227,0.187,0.414,0.414,0.414h3.725c0.228,0,0.414-0.188,0.414-0.414v-3.313h2.483v3.313c0,0.227,0.187,0.414,0.413,0.414h3.726c0.229,0,0.414-0.188,0.414-0.414v-7.042h2.068h0.004C18.331,10.617,18.389,10.146,18.121,9.88 M14.963,17.245h-2.896v-3.313c0-0.229-0.186-0.415-0.414-0.415H8.342c-0.228,0-0.414,0.187-0.414,0.415v3.313H5.032v-6.628h9.931V17.245z M3.133,9.79l6.864-6.868l6.867,6.868H3.133z"></path>
+                </g>     
+            </g>            
+        </g>
+        
+        <g id="main-chart-grp" class="main-chart-grp"">
+            <foreignObject x="0" y="0" width="90%" height="100%">
+                <div class="notes-div">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    Here ends the tour of the painful USA's journey through COVID-19 battle.
+                </div>
+                <br/>
+                <br/>               
+                <div class="notes-div">
+                    As promised in the beginning, I am hopful that you (along with me) are able to conlude on following things:
+                    <ul>
+                        <li>Although the virus made it's entry in the late January'20, it has not really impacted greatly until late March</li>
+                        <li>New york and New Jersey showed to be one of the very few states worst effected during April-May. 
+                            However these two states were able to well contain the virus in the coming months</li>
+                        <li>Data viz. showed that after Memorial day, lot of states steadily showed virus spread. 
+                            This clearly indicates that lack of social distancing and not wearing masks badly impacted the states</li>
+                        <li>Viz. clearly shows that Texas, California and Florida are the top most epicenter at the moment (i.e. June 22nd)</li>
+                    </ul>
+                </div>
+            </foreignObject>
+        </g>
+    </svg>
+
+    <script src='js/end.js'></script>
+</body>
+</html>

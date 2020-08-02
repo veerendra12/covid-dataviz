@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <link href="https://fonts.googleapis.com/css?family=Aldrich|Arima+Madurai|Arvo|Henny+Penny|Indie+Flower|Libre+Baskerville|Pirata+One|Poiret+One|Sancreek|Satisfy|Share+Tech+Mono|Smokum|Snowburst+One|Special+Elite" rel="stylesheet"> 
+
+    <!--
+    <script src='https://d3js.org/d3.v5.min.js'></script>
+    -->
+    <script src='lib/d3.v5.min.js'></script>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body style="background-color:black">
+    <svg id="svg-main" style="float: left;">
+
+        <g id="chart-title-grp" class="chart-title-grp">
+            <g transform="translate(10, 40)">
+                <rect y="8" width="100%" height="2" fill="white"></rect>
+                <text class="chart-title" fill="white"></text>
+            </g>
+        </g>
+
+
+        <g id="main-chart-grp" class="main-chart-grp"">
+            <g id="main-chart-grp-curves" class="main-chart-grp-curves"></g>
+
+            <g id="main-chart-xaxis" class="main-chart-xaxis"></g>
+            <g id="main-chart-yaxis" class="main-chart-yaxis"></g>
+
+            <g id="main-chart-controls-grp" class="main-chart-controls-grp">
+                <foreignObject x="0" y="-35" width="500" height="150">
+                    <div class="menu-div">
+                        <span style="color: white">Aggregation Level</span>
+                        <select name="Aggrgration Type" id="aggrType-control-soc" class="aggrType-control-soc">
+                            <option value="AllStates" selected>All States</option>
+                            <option value="ByRegions">By Regions</option>
+                            <option value="TopFive">Top 5 vs Others</option>
+                        </select>
+                    </div>
+                    <div class="menu-div">
+                        <span style="color: white">Pause at Events</span>
+                        <select name="Aggrgration Type" id="aggrType-control-soc" class="aggrType-control-soc">
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                    </div>                    
+                </foreignObject>
+            </g>            
+        </g>
+
+        <g id="legend-grp" class="legend-grp">
+        </g>
+        
+    </svg>
+    <svg id="svg-timeline" style="float: left;">
+        <g id="timeline-chart-grp" class="timeline-chart-grp">
+        </g>
+        <g id="navigation-grp" class="navigation-grp" stroke="red" opacity="1">
+            <g fill="black" class="navig-refresh-ctrl-grp" transform="scale(-1,1)">
+                <circle cx="20" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(0,20) scale(2)" class="navig-refresh-ctrl">
+                    <path fill="none" d="M3.254,6.572c0.008,0.072,0.048,0.123,0.082,0.187c0.036,0.07,0.06,0.137,0.12,0.187C3.47,6.957,3.47,6.978,3.484,6.988c0.048,0.034,0.108,0.018,0.162,0.035c0.057,0.019,0.1,0.066,0.164,0.066c0.004,0,0.01,0,0.015,0l2.934-0.074c0.317-0.007,0.568-0.271,0.56-0.589C7.311,6.113,7.055,5.865,6.744,5.865c-0.005,0-0.01,0-0.015,0L5.074,5.907c2.146-2.118,5.604-2.634,7.971-1.007c2.775,1.912,3.48,5.726,1.57,8.501c-1.912,2.781-5.729,3.486-8.507,1.572c-0.259-0.18-0.618-0.119-0.799,0.146c-0.18,0.262-0.114,0.621,0.148,0.801c1.254,0.863,2.687,1.279,4.106,1.279c2.313,0,4.591-1.1,6.001-3.146c2.268-3.297,1.432-7.829-1.867-10.101c-2.781-1.913-6.816-1.36-9.351,1.058L4.309,3.567C4.303,3.252,4.036,3.069,3.72,3.007C3.402,3.015,3.151,3.279,3.16,3.597l0.075,2.932C3.234,6.547,3.251,6.556,3.254,6.572z"></path>
+                </g> 
+            </g>              
+            <g fill="black" class="navig-prev-ctrl-grp">                
+                <circle cx="65" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(45,20) scale(2)" class="navig-prev-ctrl">
+                    <path d="M11.739,13.962c-0.087,0.086-0.199,0.131-0.312,0.131c-0.112,0-0.226-0.045-0.312-0.131l-3.738-3.736c-0.173-0.173-0.173-0.454,0-0.626l3.559-3.562c0.173-0.175,0.454-0.173,0.626,0c0.173,0.172,0.173,0.451,0,0.624l-3.248,3.25l3.425,3.426C11.911,13.511,11.911,13.789,11.739,13.962 M18.406,10c0,4.644-3.763,8.406-8.406,8.406S1.594,14.644,1.594,10S5.356,1.594,10,1.594S18.406,5.356,18.406,10 M17.521,10c0-4.148-3.373-7.521-7.521-7.521c-4.148,0-7.521,3.374-7.521,7.521c0,4.148,3.374,7.521,7.521,7.521C14.147,17.521,17.521,14.148,17.521,10"></path>
+                </g> 
+            </g>
+            <g fill="black" class="navig-next-ctrl-grp">
+                <circle cx="110" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(90,20) scale(2)" class="navig-next-ctrl">
+                    <path d="M12.522,10.4l-3.559,3.562c-0.172,0.173-0.451,0.176-0.625,0c-0.173-0.173-0.173-0.451,0-0.624l3.248-3.25L8.161,6.662c-0.173-0.173-0.173-0.452,0-0.624c0.172-0.175,0.451-0.175,0.624,0l3.738,3.736C12.695,9.947,12.695,10.228,12.522,10.4 M18.406,10c0,4.644-3.764,8.406-8.406,8.406c-4.644,0-8.406-3.763-8.406-8.406S5.356,1.594,10,1.594C14.643,1.594,18.406,5.356,18.406,10M17.521,10c0-4.148-3.374-7.521-7.521-7.521c-4.148,0-7.521,3.374-7.521,7.521c0,4.147,3.374,7.521,7.521,7.521C14.147,17.521,17.521,14.147,17.521,10"></path>
+                </g>
+            </g>
+            <g fill="black" class="navig-home-ctrl-grp">
+                <circle cx="155" cy="40" r="18" stroke="none"></circle>
+                <g transform="translate(135,20) scale(2)" class="navig-home-ctrl">
+                    <path  d="M18.121,9.88l-7.832-7.836c-0.155-0.158-0.428-0.155-0.584,0L1.842,9.913c-0.262,0.263-0.073,0.705,0.292,0.705h2.069v7.042c0,0.227,0.187,0.414,0.414,0.414h3.725c0.228,0,0.414-0.188,0.414-0.414v-3.313h2.483v3.313c0,0.227,0.187,0.414,0.413,0.414h3.726c0.229,0,0.414-0.188,0.414-0.414v-7.042h2.068h0.004C18.331,10.617,18.389,10.146,18.121,9.88 M14.963,17.245h-2.896v-3.313c0-0.229-0.186-0.415-0.414-0.415H8.342c-0.228,0-0.414,0.187-0.414,0.415v3.313H5.032v-6.628h9.931V17.245z M3.133,9.79l6.864-6.868l6.867,6.868H3.133z"></path>
+                </g>     
+            </g>      
+        </g>
+    </svg>
+    <div class="tooltip">
+    </div>
+
+    <script src='js/usa_state_rolling_avg_area_chart.js'></script>
+</body>
+</html>
