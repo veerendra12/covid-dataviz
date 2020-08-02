@@ -71,6 +71,12 @@ drawStory();
 function drawStory() {
     init();
     addNavigationControls();
+
+    d3.json(DATA_CORONA_SVG)
+    .then(function (data) {
+        dataCoronaSvgPaths = data;
+        renderBackground();
+    });
 }
 
 function init() {
@@ -122,4 +128,57 @@ function addNavigationControls() {
         .on("click", function() { 
             window.location.href = "USStateCovidRollingAverage.html?mode=deaths";
         });                   
+}
+
+function renderBackground() {
+
+    var cbGrp1 = buildCoronaBubbleGroups(Dims.MainSvg.Width/2, Dims.MainSvg.Height/2);
+    var cbGrp2 = buildCoronaBubbleGroups(100, 100);
+
+    renderCoronaBubbles(cbGrp1);
+    renderCoronaBubbles(cbGrp2);
+
+    d3.select("#background-corona-bubbles").lower();
+
+    bubbleAnimate();
+}
+
+function buildCoronaBubbleGroups(x, y) {
+    return d3.select("#background-corona-bubbles")
+            .append("g")
+            .attr("class", "background-corona-bubble-grp-p-p")
+            .attr("transform", `translate(${x}, ${y})`)
+            .append("g")
+            .attr("class", "background-corona-bubble-grp-p")        
+            .append("g")
+            .attr("class", "background-corona-bubble-grp");    
+}
+
+function renderCoronaBubbles(selection) {
+    selection.selectAll("path")
+                .data(dataCoronaSvgPaths)
+                .enter()
+                .append("path")
+                .attr("d", function (d) {
+                    return d;
+                });
+}
+
+function randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+var bubbleAnimate = function() {
+    d3.selectAll(".background-corona-bubble-grp-p")
+    .transition()
+    .duration(randomInteger(10000, 20000))
+    .attrTween("transform", function () {
+        var dir = (Math.random() > 0.5) ? 1 : -1;    
+        return function(t) {
+            var rx = d3.select(this).node().getBBox().width/2;
+            var ry = d3.select(this).node().getBBox().height/2;  
+            return `rotate(${t * 180 * dir} ${rx} ${ry})`;
+        };
+    })
+    .on("end", bubbleAnimate);     
 }

@@ -1,5 +1,5 @@
-const ANIMATION_INTERVAL = 20;
-const EVENT_PAUSE_INTERVAL = 2500;
+const ANIMATION_INTERVAL = 40;
+const EVENT_PAUSE_INTERVAL = 4000;
 const ONE_DAY = 60 * 60 * 24 * 1000;
 
 const DATA_USMAP_TOPJSON = "data/counties-albers-10m.json";
@@ -26,7 +26,7 @@ var Dims = {
         Height : 120
     },
     EventsChart : {
-        Width : 450,
+        Width : 500,
         Height : 800
     },
     Margin : {
@@ -72,7 +72,7 @@ var dataUSTopJson;
 var minPopulation;
 var maxPopulation;
 var stateCodes;
-var dataDatewiseStateConfirmedCases;
+var dataDatewiseStateCases;
 var dataStateEvents;
 var dataStateCodes;
 var stateCodesMap;
@@ -135,7 +135,7 @@ Promise.all([d3.json(DATA_USMAP_TOPJSON),
             .key(function (d) {  
                 return d.Date;  
             })
-            .entries(dataDatewiseStateConfirmedCases);
+            .entries(dataDatewiseStateCases);
         t.forEach(function (d) {
             var casesByState = {};
             d.values.forEach(function (d2) {
@@ -152,7 +152,7 @@ Promise.all([d3.json(DATA_USMAP_TOPJSON),
             .attr("fill", "white")
             .attr("d", geoPath)
             .on("mousemove", function(d, i) { // vesingav
-                console.log(d3.mouse(this));
+                // console.log(d3.mouse(this));
                 // d3.select("div.tooltip")
                 //     .style("opacity", .75);		
 
@@ -242,8 +242,50 @@ function renderChart(date) {
         .attr("fill", "red")
         .attr("stroke", "white");
 
-    coronaBubbleGrps.on("mouseover", function (d, i) {
-        console.log("asdfgjj");
+    coronaBubbleGrps.on("mouseover", function (stateCode, i) {
+        var stateStats = getStateStats(stateCode);
+
+        if (mode == 'newCases') {
+            d3.select("#tooltip-header")
+            .html('Positive Cases Summary:');                
+        }
+        else {
+            d3.select("#tooltip-header")
+            .html('Death Cases Summary:');                  
+        }        
+
+        d3.select("#tooltip-state")
+            .html(getStateCodeInfo(stateCode).State);
+
+        d3.select("#tooltip-peak-1d-count")
+            .html(stateStats.Peek1DCount);
+
+        d3.select("#tooltip-peak-1d-on")
+            .html(dateMonthTimeFormatter(stateStats.Peek1DOn));  
+
+        d3.select("#tooltip-total")
+            .html(stateStats.Total);            
+
+        d3.select("div.tooltip")
+            .style("left", (d3.event.pageX) + "px")		
+            .style("top", (d3.event.pageY - 100) + "px");              
+        
+        d3.select(this).style("fill-opacity", "1");
+        d3.select(this).attr("stroke", "white");
+
+        d3.select("div.tooltip").transition()		
+            .duration(200)		
+            .style("opacity", .75); 
+    });
+
+    coronaBubbleGrps.on("mouseout", function (d, i) {
+        d3.select("div.tooltip").transition()		
+            .duration(200)		
+            .style("opacity", 0);
+    });
+
+    coronaBubbleGrps.on("click", function (d, i) {
+        console.log("click");
     })
         
     renderCoronaBubbles(coronaBubbleGrps);
@@ -342,6 +384,9 @@ function setLayoutSizings() {
         
     d3.select("#map-grp")
         .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top}) scale(0.9)`);
+
+    d3.select("#main-chart-controls-grp")
+        .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top})`);
 
     d3.select("#corona-bubbles-grp-p")
         .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top}) scale(0.9)`);
@@ -456,10 +501,18 @@ function moveTimelineToDate(currDate) {
             .duration(ANIMATION_INTERVAL)
             .attr("fill-opacity", 1);
         
-        timer.stop();
-        d3.timeout(function() {
-            timer.restart(callback());
-        }, EVENT_PAUSE_INTERVAL);
+
+        var pauseOnEvents = d3.select("#pauseonevt-control-soc").node().value;
+
+        if (pauseOnEvents == 'Y') {
+            timer.stop();
+            d3.timeout(function() {
+                timer.restart(callback());
+            }, EVENT_PAUSE_INTERVAL);
+        }
+        else {
+            // Do not stop the timer;
+        }
     }    
 }
 
@@ -535,7 +588,7 @@ function formatNice(num) {
 function loadDataSets(datasets) {
     dataUSTopJson = datasets[0];
     dataStateCodes = datasets[1];
-    dataDatewiseStateConfirmedCases = datasets[2];
+    dataDatewiseStateCases = datasets[2];
     dataStateEvents = datasets[3];
     IDs = datasets[4];
     dataCoronaSvgPaths = datasets[5];  
@@ -546,18 +599,18 @@ function loadDataSets(datasets) {
     });        
 
     // This is a geoMap where we will display only state information. Filter out derived info like _USA, _OthersTop5
-    dataDatewiseStateConfirmedCases = dataDatewiseStateConfirmedCases.filter(function (d) {
+    dataDatewiseStateCases = dataDatewiseStateCases.filter(function (d) {
         return !d.State.startsWith("_");
     })
     
-    dataDateRange = d3.extent(dataDatewiseStateConfirmedCases, function (d) {
+    dataDateRange = d3.extent(dataDatewiseStateCases, function (d) {
         return d.Date;
     });    
 }
 
 function generateScales() {
     Scales.CoronaBubbleRadius = d3.scaleSqrt()
-        .domain([0, d3.max(dataDatewiseStateConfirmedCases, function (d) {
+        .domain([0, d3.max(dataDatewiseStateCases, function (d) {
             return +d.Count;
         })])
         .range([0, 0.2]);
@@ -730,4 +783,36 @@ function getMode() {
         }
     }
     return modeType;
+}
+
+function getStateCodeInfo(stateCode) {
+    return stateCodesMap[stateCode];
+}
+
+function getStateStats(stateCode) {
+    var stats = {}
+    stats.Peek1DCount = -1;
+    stats.PeekAvg = -1;
+    stats.Total = -1;
+    dataDatewiseStateCases.forEach(function (d) {
+        if (d.State == stateCode) {
+
+            if (d.NewCount > stats.Peek1DCount) {
+                stats.Peek1DCount = d.NewCount;
+                stats.Peek1DOn = d.Date;
+            }
+
+            if (d['7DayAvg'] > stats.PeekAvg) {
+                stats.PeekAvg = d['7DayAvg'];
+                stats.PeekAvgOn = d.Date;
+            }
+
+            if (d['Count'] > stats.Total) {
+                stats.Total = d['Count'];
+            }
+        }
+    });
+
+    
+    return stats;
 }

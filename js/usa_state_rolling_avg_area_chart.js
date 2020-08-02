@@ -293,7 +293,6 @@ function moveTimelineToDate(currDate, dateFilteredStackedData) {
         else {
             // Do not stop the timer;
         }
-
     }    
 }
 
@@ -356,13 +355,7 @@ function renderChart(currDate) {
                 .html(stateStats.Peek1DCount);
 
             d3.select("#tooltip-peak-1d-on")
-                .html(dateMonthTimeFormatter(stateStats.Peek1DOn));              
-
-            d3.select("#tooltip-peak-count")
-                .html(stateStats.PeekAvg);
-
-            d3.select("#tooltip-peak-on")
-                .html(dateMonthTimeFormatter(stateStats.PeekAvgOn));
+                .html(dateMonthTimeFormatter(stateStats.Peek1DOn));
 
             d3.select("#tooltip-total")
                 .html(stateStats.Total);
@@ -393,7 +386,8 @@ function renderChart(currDate) {
                 .style("opacity", 0);
 
             d3.selectAll("path.statecurves")
-            .attr("opacity", 1);
+                .attr("opacity", 1);
+
             d3.select(this).attr("stroke", "none");
         });
 }
