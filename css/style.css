@@ -122,3 +122,8 @@ div.tooltip {
     font-size: 12px;
     stroke: white;    
 }
+
+.background-corona-bubbles {
+    fill: red;
+    fill-opacity: 0.2;
+}
