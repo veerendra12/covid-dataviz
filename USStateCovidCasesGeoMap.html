@@ -2,16 +2,12 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css?family=Aldrich|Arima+Madurai|Arvo|Henny+Penny|Indie+Flower|Libre+Baskerville|Pirata+One|Poiret+One|Sancreek|Satisfy|Share+Tech+Mono|Smokum|Snowburst+One|Special+Elite" rel="stylesheet"> 
-<!--
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
-<script src='https://d3js.org/d3.v5.min.js'></script>
-<script src="http://d3js.org/topojson.v3.min.js"></script>
--->
+
 <script src='lib/d3.v5.min.js'></script>
 <script src="lib/topojson.v3.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
 <body style="background-color:black">
     <svg id="svg-main" style="float: left;">
         
@@ -29,6 +25,18 @@
             <g id="corona-bubbles-grp" class="corona-bubbles-grp">
             </g>
         </g>
+
+        <g id="main-chart-controls-grp" class="main-chart-controls-grp">
+            <foreignObject x="0" y="-35" width="500" height="150">
+                <div class="menu-div">
+                    <span style="color: white">Pause at Events</span>
+                    <select name="Pause at Events" id="pauseonevt-control-soc" class="pauseonevt-control-soc">
+                        <option value="Y" selected>Yes</option>
+                        <option value="N">No</option>
+                    </select>
+                </div>                    
+            </foreignObject>
+        </g>          
 
         <g id="legend-grp" class="legend-grp">
             <g id="legend-bubbles-grp" class="legend-bubbles-grp"></g>
@@ -72,7 +80,19 @@
     </svg>    
 
     <div class="tooltip">
-    </div>    
+        <b>
+            <i>
+                <span id="tooltip-header">Positive Cases Summary:</span>
+            </i>
+        </b>
+        <br/><br/>
+        <b>State:</b>&nbsp;<span id="tooltip-state"></span>
+        <br/><br/>
+        <b>Highest Cases in 1 Day:</b>&nbsp;<span id="tooltip-peak-1d-count"></span>&nbsp;on&nbsp;<span id="tooltip-peak-1d-on"></span>
+        <br/>
+        <br/>
+        <b>Total Cases:</b>&nbsp;<span id="tooltip-total"></span>
+    </div>
 
     <script src='js/usa_state_geomap_chart.js'></script>
 </body>
