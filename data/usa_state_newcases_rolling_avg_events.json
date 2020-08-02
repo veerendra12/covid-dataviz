@@ -1,10 +1,41 @@
 {
-    "01/22/20" : "First case reported in USA",
-    "03/04/20" : "100 cases mark reached",
-    "04/09/20" : "New york reached its highest 7-day average of 9936 new cases. On the same day, New Jersey reached its highest 7-day average of 3687 new cases",
-    "04/29/20" : "MA reached its highest 7-day average of 2473 new cases",
-    "05/31/20" : "Memorial day",
-    "07/12/20" : "California reached its highest 7-day average of 9740 new cases",
-    "07/21/20" : "Texas reached its highest 7-day average of 10781 new cases",
-    "07/22/20" : "Florida reached its highest 7-day average of 12580 new cases"
+    "01/22/20" : {
+        "Desc" : "First case reported in USA"
+    },
+    "03/04/20" : {
+        "Desc" : "100 cases mark reached",
+        "Annotation" : {
+            "Text" : "Country wide 100 cases", "StateCode" : "_USA", "TipShortLength" : 50, "TipLongLength" : 150, "SlopeInDegrees" : 0
+        }
+    },
+    "04/09/20" : {
+        "Desc" : "Both NY and NZ reached their highest 7-day average",
+        "Annotation" : {
+            "Text" : "NY highest average but flattened eventually" , "StateCode" : "NY", "TipShortLength" : 50, "TipLongLength" : 300, "SlopeInDegrees" : 45
+        }
+    },
+    "05/31/20" : {
+        "Desc" : "Memorial day",
+        "Annotation" : {
+            "Text" : "Memorial day! Outings leading to huge spike in following weeks" , "StateCode" : "_USA", "TipShortLength" : 150, "TipLongLength" : 300, "SlopeInDegrees" : 45
+        }
+    },
+    "07/12/20" : {
+        "Desc" : "CA reached its highest 7-day average of 9740 cases",
+        "Annotation" : {
+            "Text" : "CA highest average, still raising" , "StateCode" : "CA", "TipShortLength" : 300, "TipLongLength" : 250, "SlopeInDegrees" : 45
+        }
+    },
+    "07/18/20" : {
+        "Desc" : "TX reached its highest 7-day average of 10781 cases",
+        "Annotation" : {
+            "Text" : "TX highest average, new epicenter" , "StateCode" : "TX", "TipShortLength" : 50, "TipLongLength" : 250, "SlopeInDegrees" : 45
+        }
+    },
+    "07/22/20" : {
+        "Desc" : "FL reached its highest 7-day average of 12580 cases",
+        "Annotation" : {
+            "Text" : "FL highest average is racing too" , "StateCode" : "FL", "TipShortLength" : 200, "TipLongLength" : 300, "SlopeInDegrees" : 45
+        }
+    }
 }

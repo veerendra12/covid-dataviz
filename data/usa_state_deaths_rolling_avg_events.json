@@ -1,10 +1,47 @@
 {
-    "01/22/20" : "First case reported in USA",
-    "03/04/20" : "100 cases mark reached",
-    "04/09/20" : "New york reached its highest 7-day average of 9936 new cases. On the same day, New Jersey reached its highest 7-day average of 3687 new cases",
-    "04/29/20" : "MA reached its highest 7-day average of 2473 new cases",
-    "05/31/20" : "Memorial day",
-    "07/12/20" : "California reached its highest 7-day average of 9740 new cases",
-    "07/21/20" : "Texas reached its highest 7-day average of 10781 new cases",
-    "07/22/20" : "Florida reached its highest 7-day average of 12580 new cases"
+    "01/22/20" : {
+        "Desc" : "First positive case reported in USA"
+    },
+    "02/06/20" : {
+        "Desc" : "First COVID death reported in USA",
+        "Annotation" : {
+            "Text" : "First COVID death", "StateCode" : "_USA", "TipShortLength" : 50, "TipLongLength" : 25, "SlopeInDegrees" : 0
+        }
+    },
+    "03/25/20" : {
+        "Desc" : "100 death cases mark",
+        "Annotation" : {
+            "Text" : "100 deaths due to COVID" , "StateCode" : "_USA", "TipShortLength" : 50, "TipLongLength" : 100, "SlopeInDegrees" : 45
+        }
+    },
+    "04/14/20" : {
+        "Desc" : "NY's highest avg deaths of 956",
+        "Annotation" : {
+            "Text" : "NY's highest avg deaths" , "StateCode" : "NY", "TipShortLength" : 50, "TipLongLength" : 300, "SlopeInDegrees" : 45
+        }
+    },
+    "04/20/20" : {
+        "Desc" : "Country's highest avg deaths of 2241",
+        "Annotation" : {
+            "Text" : "Country's highest avg deaths, large contribution from NY" , "StateCode" : "_USA", "TipShortLength" : 50, "TipLongLength" : 200, "SlopeInDegrees" : 45
+        }
+    },
+    "05/15/20" : {
+        "Desc" : "Country's steep decline in avg deaths",
+        "Annotation" : {
+            "Text" : "Steep decline in deaths despite rising cases" , "StateCode" : "_USA", "TipShortLength" : 200, "TipLongLength" : 250, "SlopeInDegrees" : 15
+        }
+    },
+    "06/30/20" : {
+        "Desc" : "NY's second spell of upsurge",
+        "Annotation" : {
+            "Text" : "NY's second upsurge, but well controlled" , "StateCode" : "NY", "TipShortLength" : 350, "TipLongLength" : 250, "SlopeInDegrees" : 15
+        }
+    },
+    "07/22/20" : {
+        "Desc" : "TX rises in death number",
+        "Annotation" : {
+            "Text" : "TX is the new hotstop currently" , "StateCode" : "TX", "TipShortLength" : 250, "TipLongLength" : 300, "SlopeInDegrees" : 15
+        }
+    }    
 }
