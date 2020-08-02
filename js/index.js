@@ -116,7 +116,7 @@ function addNavigationControls() {
             d3.select(".navig-home-ctrl").attr("stroke", "red");
         })
         .on("click", function() {
-            window.location.href = "Index.html";
+            window.location.href = "index.html";
         });    
 
     d3.select(".navig-next-ctrl-grp")
