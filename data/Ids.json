@@ -1,0 +1,10 @@
+{
+    "EventTimelineOuterRect" : "event-timeline-rect-outer",
+    "EventTimelineInnerRect" : "event-timeline-rect-inner",
+    "EventTimelineInnerCir" : "event-timeline-cir-inner",
+    "EventTimelineOuterCir" : "event-timeline-cir-outer",
+    "EventTimelineText" : "event-timeline-txt-",
+    "CoronaBubblesParentGrp" : "corona-bubbles-grp-p",
+    "CoronaBubblesGrp" : "corona-bubbles-grp",
+    "MapGrp" : "map-grp"
+}
