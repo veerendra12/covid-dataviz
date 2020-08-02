@@ -153,12 +153,12 @@ Promise.all([d3.json(DATA_USMAP_TOPJSON),
             .attr("d", geoPath)
             .on("mousemove", function(d, i) { // vesingav
                 console.log(d3.mouse(this));
-                d3.select("div.tooltip")
-                    .style("opacity", .75);		
+                // d3.select("div.tooltip")
+                //     .style("opacity", .75);		
 
-                d3.select("div.tooltip").html("Hello")
-                    .style("left", (d3.event.pageX) + "px")		
-                    .style("top", (d3.event.pageY - 52) + "px");
+                // d3.select("div.tooltip").html("Hello")
+                //     .style("left", (d3.event.pageX) + "px")		
+                //     .style("top", (d3.event.pageY - 52) + "px");
             });
 
         mapGroup.append("path")

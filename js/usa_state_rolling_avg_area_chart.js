@@ -132,7 +132,10 @@ Promise.all([d3.csv(DATA_STATE_CODES),
 
         allStateAndCountryData = Object.values(dataStateConfirmedCasesDateNested);
 
-        redrawStory();
+        // Initial pause before starting the animation, to let user read through the layout
+        d3.timeout(function() {
+            redrawStory();
+        }, EVENT_PAUSE_INTERVAL);
     }
 );
 
@@ -163,6 +166,9 @@ function clearDrawings() {
     d3.select("#timeline-chart-caption-grp").selectAll("*").remove();
     d3.select("#timeline-chart-axis-grp").selectAll("*").remove();
     d3.select("#legend-grp").selectAll("*").remove();
+    d3.select("#main-chart-annotations").selectAll("*").remove();
+
+    d3.selectAll(".event-timeline-axis-cap-text").attr("fill-opacity", 0);
 }
 
 var callback = function() {
@@ -190,11 +196,11 @@ function generateColors(size) {
 function init() {
     if (mode == 'newCases') {
         d3.select(".chart-title")
-            .text("USA Covid Journey - 7 Day Rolling Avg of Newly Confirmed Cases");
+            .text("USA Covid Journey - 7Day Rolling Avg of Newly Confirmed Cases");
     }
     else if (mode == 'deaths') {
         d3.select(".chart-title")
-            .text("USA Covid Journey - 7 Day Rolling Avg of Newly Deaths Cases");
+            .text("USA Covid Journey - 7Day Rolling Avg of Newly Deaths Cases");
     }
 }
 
@@ -236,14 +242,15 @@ function roundNice(num) {
     return num;
 }
 
-function moveTimelineToDate(currDate) {
+function moveTimelineToDate(currDate, dateFilteredStackedData) {
     d3.select("#" + IDs.EventTimelineInnerRect)
         .transition()
         .ease(d3.easeLinear)
         .duration(ANIMATION_INTERVAL)
         .attr("height", Scales.TimeLineScale(currDate));
 
-    if (dataStateEvents[timeFormatter(currDate)]) {
+    var eventPayload = dataStateEvents[timeFormatter(currDate)];
+    if (eventPayload) {
         
         d3.select("#" + IDs.EventTimelineInnerCir + timeFormatterHyphen(currDate))
             .transition()
@@ -256,11 +263,37 @@ function moveTimelineToDate(currDate) {
             .ease(d3.easeLinear)
             .duration(ANIMATION_INTERVAL)
             .attr("fill-opacity", 1);
+
+        if (eventPayload.Annotation) {
+            var stateCodeIdx = -1;
+            if (!eventPayload.Annotation.StateCode.startsWith("_")) {
+                stateCodeIdx = currChartKeys.indexOf(eventPayload.Annotation.StateCode);
+
+            }
+            else if (eventPayload.Annotation.StateCode.startsWith("_USA")) {
+                // For country outline, pick the last state area layer
+                stateCodeIdx = currChartKeys.length - 1;
+            }
+            var stateTimeSeriesData = dateFilteredStackedData[stateCodeIdx];
+            var stateAreaPathData = stateTimeSeriesData[stateTimeSeriesData.length-1];
+            
+            drawAnnotation(currDate,
+                            stateAreaPathData[1],
+                            eventPayload.Annotation);     
+        }   
+
+        var pauseOnEvents = d3.select("#pauseonevt-control-soc").node().value;
         
-        timer.stop();
-        d3.timeout(function() {
-            timer.restart(callback());
-        }, EVENT_PAUSE_INTERVAL);
+        if (pauseOnEvents == 'Y') {
+            timer.stop();
+            d3.timeout(function() {
+                timer.restart(callback());
+            }, EVENT_PAUSE_INTERVAL);
+        }
+        else {
+            // Do not stop the timer;
+        }
+
     }    
 }
 
@@ -277,7 +310,7 @@ function renderChart(currDate) {
 
     var pathsSelection = d3.select(".main-chart-grp-curves").selectAll("path.statecurves");
 
-    moveTimelineToDate(currDate);
+    moveTimelineToDate(currDate, dateFilteredStackedData);
 
     // Update selection
     pathsSelection.data(dateFilteredStackedData)
@@ -304,16 +337,47 @@ function renderChart(currDate) {
             return Generators.StateAreaGenerator(d);
         })
         .on("mousemove", function (d, i) {
-            d3.select("div.tooltip").transition()		
-                .duration(200)		
-                .style("opacity", .75);		
+            var stateCode = getAreaChartCode(i);
+            var stateStats = getStateStats(stateCode);
 
-            d3.select("div.tooltip").html(getStateCodeInfo([i]).State)
+            if (mode == 'newCases') {
+                d3.select("#tooltip-header")
+                .html('Positive Cases Summary:');                
+            }
+            else {
+                d3.select("#tooltip-header")
+                .html('Death Cases Summary:');                  
+            }
+
+            d3.select("#tooltip-state")
+                .html(getStateCodeInfo([i]).State);
+
+            d3.select("#tooltip-peak-1d-count")
+                .html(stateStats.Peek1DCount);
+
+            d3.select("#tooltip-peak-1d-on")
+                .html(dateMonthTimeFormatter(stateStats.Peek1DOn));              
+
+            d3.select("#tooltip-peak-count")
+                .html(stateStats.PeekAvg);
+
+            d3.select("#tooltip-peak-on")
+                .html(dateMonthTimeFormatter(stateStats.PeekAvgOn));
+
+            d3.select("#tooltip-total")
+                .html(stateStats.Total);
+
+            d3.select("div.tooltip")
+                // .html(getStateCodeInfo([i]).State)
                 .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 52) + "px");
+                .style("top", (d3.event.pageY - 100) + "px");              
                 
             d3.select(this).style("fill-opacity", "1");
             d3.select(this).attr("stroke", "white");
+
+            d3.select("div.tooltip").transition()		
+            .duration(200)		
+            .style("opacity", .75);              
 
             var hoveredState = d3.select(this).attr("data-state")
 
@@ -353,6 +417,34 @@ function getAreaChartColor(idx) {
 
 function getStateCodeInfo(idx) {
     return stateCodesMap[currChartKeys[idx]];
+}
+
+function getStateStats(stateCode) {
+    var stats = {}
+    stats.Peek1DCount = -1;
+    stats.PeekAvg = -1;
+    stats.Total = -1;
+    dataDatewiseStateCases.forEach(function (d) {
+        if (d.State == stateCode) {
+
+            if (d.NewCount > stats.Peek1DCount) {
+                stats.Peek1DCount = d.NewCount;
+                stats.Peek1DOn = d.Date;
+            }
+
+            if (d['7DayAvg'] > stats.PeekAvg) {
+                stats.PeekAvg = d['7DayAvg'];
+                stats.PeekAvgOn = d.Date;
+            }
+
+            if (d['Count'] > stats.Total) {
+                stats.Total = d['Count'];
+            }
+        }
+    });
+
+    
+    return stats;
 }
 
 function computeDims() {
@@ -648,7 +740,7 @@ function buildEventTimeline() {
         .attr("id", function (d, i) {
             return IDs.EventTimelineText + timeFormatterHyphen(timeParser(d));
         })
-        .attr("class", "event-timeline-axis")
+        .attr("class", "event-timeline-axis event-timeline-axis-cap-text")
         .attr("fill", "black")
         .attr("fill-opacity", "0")
         .attr("dominant-baseline", "middle")
@@ -659,7 +751,7 @@ function buildEventTimeline() {
             return Scales.TimeLineScale(timeParser(d));
         })
         .text(function (d, i) {
-            return "[" + d + "] " + dataStateEvents[d];
+            return "[" + d + "] " + dataStateEvents[d].Desc;
         });
 }
 
@@ -682,4 +774,50 @@ function getMode() {
         }
     }
     return modeType;
+}
+
+function drawAnnotation(x, y, annotConfig) {
+    annotConfig.TipShortLength = (annotConfig.TipShortLength != undefined) ? annotConfig.TipShortLength : 75;
+    annotConfig.TipLongLength = (annotConfig.TipLongLength != undefined) ? annotConfig.TipLongLength : 200;
+    annotConfig.SlopeInDegrees = (annotConfig.SlopeInDegrees != undefined) ? annotConfig.SlopeInDegrees : 45;
+    annotConfig.Text = (annotConfig.Text != undefined) ? annotConfig.Text : "<Text missing>";
+
+    var origin = [Scales.MainXScale(x), Scales.MainYScale(parseInt(y))];
+
+    var slopeRadians = (Math.PI / 180) * annotConfig.SlopeInDegrees;
+
+    var x1 = [ -1 * Math.sin(slopeRadians) * annotConfig.TipShortLength,
+               -1 * Math.cos(slopeRadians) * annotConfig.TipShortLength];
+
+    var x2 = [x1[0] - annotConfig.TipLongLength,
+              x1[1]];
+
+    var annotGrp = d3.select("#main-chart-annotations")
+        .append("g")
+        .attr("transform", `translate(${origin[0]}, ${origin[1]})`);
+
+    annotGrp.append("path")
+        .attr("fill", "none")
+        .attr("stroke", "white")
+        .attr("opacity", "0.75")
+        .attr("d", function () {
+            // return `M0,0L0,-${tipShortLength}L-${tipLongLength},-${tipShortLength}`;
+            return `M0,0    L${x1[0]}${x1[1]}  L${x2[0]}${x2[1]}`;
+        });
+
+    annotGrp.append("text")
+        .attr("class", "annot-text")
+        // .attr("fill", "white")
+        .attr("x", x2[0])
+        .attr("y", x2[1] - 4)
+        .text(annotConfig.Text);
+
+    annotGrp.append("g")
+        .attr("class", "annot-head-triangle")
+        .attr("transform", `rotate(${180 - annotConfig.SlopeInDegrees} 0 0)`)
+        .append("path")
+            .attr("fill", "#5680E9")
+            // .attr("d", "M0,0  L10,0 L0,-10 L-10,0 Z")
+            .attr("d", "M0,0  L10,10 L0,10 L-10,10 Z");        
+    
 }
