@@ -90,7 +90,7 @@ d3.select("div.tooltip").style("opacity", 0);
 
 var mode = getMode();
 var casesDataFile = (mode == 'deaths') ? DATA_STATE_DEATHS : DATA_STATE_CONFIRMED_CASES;
-var caseEventsDataFile = (mode == 'deaths') ? DATA_STATE_CONFIRMED_CASE_EVENTS : DATA_STATE_CONFIRMED_CASE_EVENTS;
+var caseEventsDataFile = (mode == 'deaths') ? "data/usa_state_deaths_events.json" : DATA_STATE_CONFIRMED_CASE_EVENTS;
 
 Promise.all([d3.json(DATA_USMAP_TOPJSON),
              d3.csv(DATA_STATE_CODES),
@@ -99,7 +99,7 @@ Promise.all([d3.json(DATA_USMAP_TOPJSON),
                  d.Count = +d.Count;
                  return d;
              }),
-            d3.json(DATA_STATE_CONFIRMED_CASE_EVENTS),
+            d3.json(caseEventsDataFile),
             d3.json(DATA_IDS),
             d3.json(DATA_CORONA_SVG)])
     .then(function (datasets) {
