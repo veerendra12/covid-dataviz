@@ -196,11 +196,11 @@ function generateColors(size) {
 function init() {
     if (mode == 'newCases') {
         d3.select(".chart-title")
-            .text("USA COVID'19 Journey - 7Day Rolling Avg of Newly Confirmed Cases");
+            .text("USA COVID'19 Journey - 7Day Rolling Avg of Positive Cases");
     }
     else if (mode == 'deaths') {
         d3.select(".chart-title")
-            .text("USA COVID'19 Journey - 7Day Rolling Avg of Newly Deaths Cases");
+            .text("USA COVID'19 Journey - 7Day Rolling Avg of Deaths Cases");
     }
 }
 
