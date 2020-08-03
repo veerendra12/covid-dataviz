@@ -335,7 +335,7 @@ var callback = function() {
 function init() {
     if (mode == 'newCases') {
         d3.select(".chart-title")
-            .text("USA COVID'19 Journey - Growth of Positive Cases Across States");
+            .text("USA COVID'19 Journey - Growth of Positive Cases");
     }
     else if (mode == 'deaths') {
         d3.select(".chart-title")
