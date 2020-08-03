@@ -388,19 +388,19 @@ function setLayoutSizings() {
         .attr("transform", "translate(30,0)");   
         
     d3.select("#map-grp")
-        .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top}) scale(0.9)`);
+        .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top}) scale(0.8)`);
 
     d3.select("#main-chart-controls-grp")
         .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top})`);
 
     d3.select("#corona-bubbles-grp-p")
-        .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top}) scale(0.9)`);
+        .attr("transform", `translate(${Dims.Margin.Left},${Dims.Margin.Top}) scale(0.8)`);
 
     d3.select("#legend-grp")
         .attr("transform", `translate(${Dims.MainSvg.Width*1/2},${Dims.MainSvg.Height - Dims.LegendChart.Height})`);
 
     d3.select("#legend-bubbles-grp")
-        .attr("transform", `translate(scale(0.9))`)        
+        .attr("transform", `translate(scale(0.8))`)        
 }
 
 function initiateCoronaBubbleAnimation() {
