@@ -26,7 +26,7 @@ var Dims = {
         Height : 120
     },
     EventsChart : {
-        Width : 500,
+        Width : 450,
         Height : 800
     },
     Margin : {
@@ -189,7 +189,12 @@ Promise.all([d3.json(DATA_USMAP_TOPJSON),
             .attr("class", "bubbles")
             .attr("display", "none");
         
-        redrawStory();
+        // redrawStory();
+
+        // Initial pause before starting the animation, to let user read through the layout
+        d3.timeout(function() {
+            redrawStory();
+        }, EVENT_PAUSE_INTERVAL);        
     });
 
 function redrawStory() {
@@ -330,11 +335,11 @@ var callback = function() {
 function init() {
     if (mode == 'newCases') {
         d3.select(".chart-title")
-            .text("USA Covid Journey - Growth of Positive Cases Across States");
+            .text("USA COVID'19 Journey - Growth of Positive Cases Across States");
     }
     else if (mode == 'deaths') {
         d3.select(".chart-title")
-        .text("USA Covid Journey - Growth of Deaths Across States");
+        .text("USA COVID'19 Journey - Growth of Deaths Across States");
     }
 }
 
